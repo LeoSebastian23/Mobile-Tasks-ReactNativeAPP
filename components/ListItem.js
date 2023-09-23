@@ -19,7 +19,7 @@ export default function ListItem({
                 hour={hour}
             </Checkbox>
             <Text style={styles.text}>{text}</Text>
-           
+            <Text style={styles.time}>{hour}</Text>
         </View>
     )
 }
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         marginBottom:15,
     },
     text:{
-        fontSize:15,
+        fontSize:20, 
         color:'#2f4f4f',
     },
     time:{

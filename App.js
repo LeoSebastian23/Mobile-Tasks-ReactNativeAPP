@@ -1,12 +1,12 @@
-import {SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {SafeAreaView, StyleSheet, View } from 'react-native';
 import List from './components/List';
+import CustomSafeAreaView from './CustomSafeAreaView';
 
 export default function App() {
   return (
-    <SafeAreaView>
+    <CustomSafeAreaView>
       <List/>
-    </SafeAreaView>
-      
+    </CustomSafeAreaView>    
     
   );
 }
@@ -17,5 +17,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 40,
   },
 });
