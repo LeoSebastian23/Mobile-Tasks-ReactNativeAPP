@@ -5,7 +5,7 @@ import Checkbox from './Checkbox';
 export default function ListItem({
     id,
     text,
-    isComplet,
+    isCompleted,
     isToday,
     hour
 }){
@@ -14,7 +14,7 @@ export default function ListItem({
             <Checkbox>
                 id={id}
                 text={text}
-                isCompleted={isComplet}
+                isCompleted={isCompleted}
                 isToday={isToday}
                 hour={hour}
             </Checkbox>
@@ -27,6 +27,8 @@ export default function ListItem({
 const styles = StyleSheet.create({
     container:{
         marginBottom:15,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     text:{
         fontSize:20, 
