@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import List from './components/List';
 
 export default function App() {
@@ -6,6 +6,8 @@ export default function App() {
     <SafeAreaView>
       <List/>
     </SafeAreaView>
+      
+    
   );
 }
 
