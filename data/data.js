@@ -1,4 +1,4 @@
-const list = [
+const info = [
     {
         id: 1,
         text: 'Take out the trash',
@@ -64,4 +64,4 @@ const list = [
     }
 ];
 
-module.exports = { list };
+module.exports = { info };
