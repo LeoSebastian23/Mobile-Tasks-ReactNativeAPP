@@ -15,9 +15,7 @@ export default function List(){
             isCompleted={item.isCompleted}
             isToday={item.isToday}
             hour={item.hour}
-            
             />
-            
     }
         />
     )

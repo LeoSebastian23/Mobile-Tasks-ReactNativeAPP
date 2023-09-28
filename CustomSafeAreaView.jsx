@@ -7,7 +7,7 @@ function CustomSafeAreaView({ children }) {
       style={{
         flex: 1,
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        backgroundColor:'#b0e0e6'
+        backgroundColor:'#f0e68c'
       }}
     >
       {children}

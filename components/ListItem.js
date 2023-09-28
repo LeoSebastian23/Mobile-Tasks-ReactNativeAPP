@@ -8,8 +8,7 @@ export default function ListItem({
     isCompleted,
     isToday,
     hour
-}){  console.log('isCompleted:', isCompleted);
-    console.log('isToday:', isToday);
+}){
     return( 
         <View style={styles.container}>
             <Checkbox 
@@ -20,8 +19,13 @@ export default function ListItem({
                 hour={hour}
             />
             <View>
-                <Text style={styles.text}>{text}</Text>
-            <Text style={styles.time}>{hour}</Text>
+                <Text  style={
+                    isCompleted 
+                    ? [styles.text,{textDecorationLine :'line-through'}, {color :'gray'}] 
+                    : [styles.text]
+                }
+                >{text}</Text>
+                <Text style={styles.time}>{hour}</Text>
             </View>
         
         </View>
