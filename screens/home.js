@@ -1,10 +1,14 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import List from '../components/List';
 import CustomSafeAreaView from '../CustomSafeAreaView';
 import { info } from '../data/data';
+import { useNavigation } from '@react-navigation/native';
+
+
 
 export default function Home() {
+
     const [localData, setLocalData] = React.useState(
         info.sort((a, b) => { return a.isCompleted - b.isCompleted })
     )
@@ -19,6 +23,10 @@ export default function Home() {
         setIsHidden(!isHidden)
         setLocalData(localData.filter(info => !info.isCompleted))
     }
+
+    const navigation = useNavigation();
+
+
     return (
         <CustomSafeAreaView>
             <View style={styles.container}>
@@ -33,7 +41,7 @@ export default function Home() {
                 <List info={localData.filter(info => info.isToday === false)} />
                 <TouchableOpacity
                     style={styles.buttonAdd}
-                    //onPress={() => navigation.navigate('Add')}
+                    onPress={() => navigation.navigate('Add')}
                 >
                     <Text style={styles.plus}>+</Text>
                 </TouchableOpacity>
@@ -46,7 +54,7 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 40,
+        paddingTop: 20,
         paddingLeft: 20,
         borderLeftWidth: 1,
         borderRightColor: '#cd5c5c'
@@ -56,7 +64,7 @@ const styles = StyleSheet.create({
     tittle: {
         fontSize: 40,
         fontWeight: 'bold',
-        marginBottom: 30
+        marginBottom: 20
     },
     containerTop: {
         flexDirection: 'row',
