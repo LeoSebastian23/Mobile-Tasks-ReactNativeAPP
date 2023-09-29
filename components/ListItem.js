@@ -35,9 +35,12 @@ export default function ListItem({
 
 const styles = StyleSheet.create({
     container:{
-        marginBottom:15,
+        padding:4,
         flexDirection: 'row',
         alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor:'black',
+        //borderLeftWidth:1,
     },
     text:{
         fontSize:20, 
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
     },
     time:{
         fontSize:14,
-        color:'#a3a3a3',
+        color:'#2f4f4f',
         fontWeight:'500',
     }
 })

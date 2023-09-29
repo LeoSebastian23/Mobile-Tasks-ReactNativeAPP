@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { FlatList,Text,View } from 'react-native';
 import ListItem from './ListItem';
-import { info } from '../data/data';
 
-
-export default function List(){
+export default function List({info}){
     return(
         <FlatList
             data={info}
@@ -20,3 +18,4 @@ export default function List(){
         />
     )
 }
+
