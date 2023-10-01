@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { StyleSheet,Text, View } from 'react-native';
 import Checkbox from './Checkbox';
+import moment from 'moment/moment';
 
-export default function ListItem({
+export default function TaskItem({
     id,
     text,
     isCompleted,
     isToday,
     hour
 }){
+    const [localHour, setLocalHour] = React.useState(new Date(hour));
     return( 
         <View style={styles.container}>
             <Checkbox 
@@ -25,7 +27,7 @@ export default function ListItem({
                     : [styles.text]
                 }
                 >{text}</Text>
-                <Text style={styles.time}>{hour}</Text>
+                <Text style={styles.time}>{moment(localHour).format('LT')}</Text>
             </View>
         
         </View>
@@ -35,11 +37,11 @@ export default function ListItem({
 
 const styles = StyleSheet.create({
     container:{
-        padding:4,
+        padding:10,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor:'black',
+        //borderBottomWidth: 1,
+        //borderBottomColor:'black',
         //borderLeftWidth:1,
     },
     text:{
