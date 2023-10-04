@@ -51,7 +51,19 @@ export default function TaskItem({ id, text, isCompleted, isToday, hour }) {
           >
             {text}
           </Text>
-          <Text style={styles.time}>{moment(localHour).format("LT")}</Text>
+          <Text
+            style={
+              isCompleted
+                ? [
+                    styles.time,
+                    { textDecorationLine: "line-through" },
+                    { color: "gray" },
+                  ]
+                : [styles.time]
+            }
+          >
+            {moment(localHour).format("LT")}
+          </Text>
         </View>
       </View>
       <TouchableOpacity onPress={handleDeleteTask}>
@@ -81,7 +93,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: "row",
     alignItems: "center",
-    
   },
   textContainer: {
     marginLeft: 10,
