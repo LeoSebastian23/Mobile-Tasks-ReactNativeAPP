@@ -2,7 +2,6 @@ import * as React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import List from '../components/List';
 import CustomSafeAreaView from '../CustomSafeAreaView';
-//import { info } from '../data/data';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,26 +12,38 @@ import { hideComplitedReducer,setTasksReducer } from "../reduxs/taskSlice";
 export default function Home() {
     const tasks = useSelector(state => state.tasks.tasks);
 
-    // const [localData, setLocalData] = React.useState(
-    //     info.sort((a, b) => { return a.isCompleted - b.isCompleted })
-    // )
     const [isHidden, setIsHidden] = React.useState(false)
 
-     const handleHidePress = () => {
-    //     if (isHidden) {
-    //         setIsHidden(false)
-    //         setLocalData(info.sort((a, b) => { return a.isCompleted - b.isCompleted }))
-    //         return
-    //     }
-    //     setIsHidden(!isHidden)
-    //     setLocalData(localData.filter(info => !info.isCompleted))
+    const handleHideCompleted = async () => {
+        if (isHidden) {
+            setIsHidden(false);
+            const tasks = await AsyncStorage.getItem('@Tasks');
+            if(tasks !== null){
+                dispatch(setTasksReducer(JSON.parse(tasks)));
+            }
+
+            return;
+        }
+        setIsHidden(!isHidden);
+        dispatch(hideComplitedReducer());
     }
 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
-    // React.useEffect(() =>(
-
-    // ))
+    React.useEffect(() =>{
+        const getTasks = async() => {
+            try {
+                const tasks = await AsyncStorage.getItem("@Tasks");
+                if(tasks !== null){
+                    dispatch(setTasksReducer(JSON.parse(tasks)));; // Pasamos de JSON a JS
+                }
+            }catch (e){
+                console.log(e);
+            }
+        }
+        getTasks();
+    },[])
 
 
     return (
@@ -40,7 +51,7 @@ export default function Home() {
             <View style={styles.container}>
                 <View style={styles.containerTop}>
                     <Text style={styles.tittle}>Hoy</Text>
-                    <TouchableOpacity onPress={handleHidePress}>
+                    <TouchableOpacity onPress={handleHideCompleted}>
                         <Text style={{ color: '#4b0082' }}>{isHidden ? "MOSTRAR COMPLETOS" : "OCULTAR COMPLETOS"}</Text>
                     </TouchableOpacity>
                 </View>
