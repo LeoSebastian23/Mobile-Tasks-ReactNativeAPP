@@ -29,7 +29,7 @@ export default function TaskItem({ id, text, isCompleted, isToday, hour }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={styles.contentContainer}>
         <Checkbox
           id={id}
           text={text}
@@ -37,7 +37,7 @@ export default function TaskItem({ id, text, isCompleted, isToday, hour }) {
           isToday={isToday}
           hour={hour}
         />
-        <View>
+        <View style={styles.textContainer}>
           <Text
             style={
               isCompleted
@@ -68,18 +68,37 @@ export default function TaskItem({ id, text, isCompleted, isToday, hour }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    backgroundColor: "#EEEEEE", // Color de fondo
+    borderRadius: 8, // Bordes redondeados
+    margin: 8, // Márgenes
+    padding: 8, // Espaciado interno
+    borderColor: "#E0E0E0", // Color del borde
+    borderWidth: 1, // Ancho del borde
+    flexDirection: "row", // Para alinear elementos horizontalmente
+    justifyContent: "space-between", // Para espaciar los elementos en el contenedor
+    alignItems: "center", // Para centrar verticalmente los elementos
+  },
+  contentContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    
+  },
+  textContainer: {
+    marginLeft: 10,
+    flex: 1,
+    maxWidth: "70%", // Establece un ancho máximo
   },
   text: {
-    fontSize: 20,
-    color: "#2f4f4f",
+    fontSize: 16, // Tamaño de fuente
+    color: "#333333", // Color del texto
   },
   time: {
     fontSize: 14,
-    color: "#2f4f4f",
-    fontWeight: "500",
+    color: "#888",
+  },
+  delete: {
+    fontSize: 24,
+    color: "red", // Color del icono de eliminación
+    // Agrega sombras u otros estilos aquí si deseas destacarlo más
   },
 });

@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-} from "react-native";
-
+import {View, Text, TextInput, StyleSheet, Switch, TouchableOpacity} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -17,12 +9,10 @@ import { addTaskReducer } from "../reduxs/taskSlice";
 export default function AddTask() {
   const [name, setName] = useState("");
   const [date, setDate] = useState(new Date());
-  const [isToday, setIsToday] = useState(false); 
-
+  const [isToday, setIsToday] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
 
-  const listTasks = useSelector((state) => state.tasks.tasks); //Estado de redux
-
+  const listTasks = useSelector((state) => state.tasks.tasks);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -34,7 +24,6 @@ export default function AddTask() {
   };
 
   const addTask = async () => {
-
     const newTask = {
       id: Math.floor(Math.random() * 1000000),
       text: name,
@@ -45,75 +34,77 @@ export default function AddTask() {
       isComplited: false,
     };
     try {
-      await AsyncStorage.setItem(
-        "@Tasks",
-        JSON.stringify([...listTasks, newTask])
-      );
+      await AsyncStorage.setItem("@Tasks",JSON.stringify([...listTasks, newTask]));
       dispatch(addTaskReducer(newTask));
-      console.log("Task saved correctly");
+      console.log("Tarea guardada correctamente");
       navigation.goBack();
     } catch (e) {
       console.log(e);
     }
   };
 
-return (
-  <View style={styles.container}>
-    <Text style={styles.title}>Agregar tarea</Text>
-    <View style={styles.inputContainer}>
-      <Text style={styles.inputTitle}>Titulo</Text>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Task"
-        placeholderTextColor="#00000030"
-        onChangeText={(text) => setName(text)}
-      />
-    </View>
-
-    <View style={styles.inputContainer}>
-      <Text style={styles.inputTitle}>Horario</Text>
-      <TouchableOpacity onPress={() => setShowTimePicker(true)}>
-        <Text>{date.toLocaleTimeString()}</Text>
-      </TouchableOpacity>
-      {showTimePicker && (
-        <DateTimePicker
-          value={date}
-          mode={"time"}
-          is24Hour={true}
-          onChange={handleTimeChange}
-          style={{ width: "80%" }}
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Agregar Tarea</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputTitle}>Título</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Tarea"
+          placeholderTextColor="#00000030"
+          onChangeText={(text) => setName(text)}
         />
-      )}
-    </View>
-    <View
-      style={[
-        styles.inputContainer,
-        { paddingBottom: 0, alignItems: "center" },
-      ]}
-    >
-      <View>
-        <Text style={styles.inputTitle}>Hoy</Text>
-        <Text
-          style={{
-            color: "#00000040",
-            fontSize: 12,
-            maxWidth: "84%",
-            paddingBottom: 10,
-          }}
-        >
-          Si la tarea NO es para hoy, se programará para mañana.
-        </Text>
       </View>
-      <Switch value={isToday} onValueChange={(value) => setIsToday(value)} />
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputTitle}>Horario</Text>
+        <TouchableOpacity onPress={() => setShowTimePicker(true)}>
+          <Text>{date.toLocaleTimeString()}</Text>
+        </TouchableOpacity>
+        {showTimePicker && (
+          <DateTimePicker
+            value={date}
+            mode={"time"}
+            is24Hour={true}
+            onChange={handleTimeChange}
+            style={{ width: "80%" }}
+          />
+        )}
+      </View>
+      <View
+        style={[
+          styles.inputContainer,
+          { paddingBottom: 0, alignItems: "center" },
+        ]}
+      >
+        <View>
+          <Text style={styles.inputTitle}>Hoy</Text>
+          <Text
+            style={{
+              color: "#00000040",
+              fontSize: 12,
+              maxWidth: "84%",
+              paddingBottom: 10,
+            }}
+          >
+          Si la tarea NO es para hoy, se programará para mañana.
+          </Text>
+        </View>
+        <Switch value={isToday} onValueChange={(value) => setIsToday(value)} />
+      </View>
+      <TouchableOpacity onPress={addTask} style={styles.button}>
+        <Text style={{ color: "white" }}>Hecho</Text>
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity onPress={addTask} style={styles.button}>
-      <Text style={{ color: "white" }}>Done</Text>
-    </TouchableOpacity>
-  </View>
-)
-};
+  );
+}
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#64CCC5",
+    paddingHorizontal: 30,
+  },
   title: {
     fontSize: 34,
     fontWeight: "bold",
@@ -125,28 +116,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: "80%",
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#F7F8FA",
-    paddingHorizontal: 30,
-  },
   inputTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "600",
-    lineHeight: 24,
+    lineHeight: 30,
   },
   inputContainer: {
     justifyContent: "space-between",
     flexDirection: "row",
     paddingBottom: 30,
+    alignItems: "center",
   },
   button: {
     marginTop: 30,
     marginBottom: 15,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#000000",
+    backgroundColor: "#053B50",
     height: 46,
     borderRadius: 11,
   },
 });
+
+
