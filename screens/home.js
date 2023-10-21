@@ -59,7 +59,7 @@ export default function Home() {
         <View style={styles.containerToday}>
           <Text style={styles.tittle}>Hoy</Text>
           <TouchableOpacity onPress={handleHideCompleted}>
-            <Text style={{ color: "#64CCC5" }}>
+            <Text style={styles.textState}>
               {isHidden ? "MOSTRAR COMPLETOS" : "OCULTAR COMPLETOS"}
             </Text>
           </TouchableOpacity>
@@ -87,12 +87,19 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
   },
   tittle: {
-    fontSize: 34,
+    fontSize: 40,
     fontWeight: "bold",
     marginBottom: 4,
-    //marginTop: 16,
-    color: "#EEEEEE",
+    color: "#fff",
     padding: 5,
+  },
+  textState:{
+    backgroundColor:"#071952",
+    borderRadius:15,
+    padding:10,
+    color:"#fff",
+    fontWeight:"bold",
+    fontSize:12,
   },
   containerToday: {
     flexDirection: "row",

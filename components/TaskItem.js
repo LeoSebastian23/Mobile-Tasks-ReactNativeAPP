@@ -80,12 +80,10 @@ export default function TaskItem({ id, text, isCompleted, isToday, hour }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#EEEEEE", // Color de fondo
+    backgroundColor: "#F2F7A1", // Color de fondo
     borderRadius: 8, // Bordes redondeados
     margin: 8, // Márgenes
     padding: 8, // Espaciado interno
-    borderColor: "#E0E0E0", // Color del borde
-    borderWidth: 1, // Ancho del borde
     flexDirection: "row", // Para alinear elementos horizontalmente
     justifyContent: "space-between", // Para espaciar los elementos en el contenedor
     alignItems: "center", // Para centrar verticalmente los elementos

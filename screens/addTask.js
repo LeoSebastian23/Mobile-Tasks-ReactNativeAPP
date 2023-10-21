@@ -46,7 +46,7 @@ export default function AddTask() {
         JSON.stringify([...listTasks, newTask])
       );
       dispatch(addTaskReducer(newTask));
-      console.log("Tarea guardada correctamente");
+      //console.log("Tarea guardada correctamente");
       navigation.goBack();
     } catch (e) {
       console.log(e);
@@ -114,14 +114,18 @@ export default function AddTask() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#64CCC5",
+    backgroundColor: "#35A29F",
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 34,
+    fontSize: 44,
     fontWeight: "bold",
     marginBottom: 35,
     marginTop: 35,
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
+    paddingBottom:10,
+    borderRadius: 10,
   },
   textInput: {
     borderBottomColor: "#00000030",
@@ -141,9 +145,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#EEEEEE",
-    borderColor: "#E0E0E0",
-    borderWidth: 1,
+    backgroundColor: "#F2F7A1",
+
     borderRadius: 10,
   },
   button: {
@@ -152,32 +155,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#053B50",
-    height: 46,
+    height: 56,
     borderRadius: 11,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 5,
-    // elevation: 5,
   },
   hours: {
     fontSize: 20,
     fontWeight: "700",
     backgroundColor: "#A2FF86",
-    //color:"#EEEEEE",
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: "#E0E0E0",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
+    borderRadius:10,
     elevation: 2,
     padding: 10,
   },

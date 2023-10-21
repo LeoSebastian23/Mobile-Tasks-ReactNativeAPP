@@ -11,7 +11,7 @@ export const taskSlice = createSlice({
     reducers: {
         setTasksReducer: (state, action) => {
             state.tasks = action.payload;
-            console.log(state.tasks);
+            //console.log(state.tasks);
         },
         addTaskReducer: (state, action) => {
             state.tasks.push(action.payload);
@@ -19,7 +19,7 @@ export const taskSlice = createSlice({
         hideComplitedReducer: (state, action) => {
             state.tasks = state.tasks.filter(task => !task.isCompleted);
         },
-        updateTaskReducer: (state, action) => {
+        updateTaskReducer: (state, action) => { 
            //toggle is completed
             state.tasks = state.tasks.map(task => {
                 if (task.id === action.payload.id) {
