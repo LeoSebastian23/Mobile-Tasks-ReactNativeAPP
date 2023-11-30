@@ -13,11 +13,15 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskReducer } from "../reduxs/taskSlice";
 
+import * as Notifications from "expo-notifications";
+
+
 export default function AddTask() {
-  const [name, setName] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [isToday, setIsToday] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [name, setName] = React.useState("");
+  const [date, setDate] = React.useState(new Date());
+  const [isToday, setIsToday] = React.useState(false);
+  const [showTimePicker, setShowTimePicker] = React.useState(false);
+  const [withAlert, setWithAlert] = React.useState(false);
 
   const listTasks = useSelector((state) => state.tasks.tasks);
   const navigation = useNavigation();
@@ -46,12 +50,32 @@ export default function AddTask() {
         JSON.stringify([...listTasks, newTask])
       );
       dispatch(addTaskReducer(newTask));
-      //console.log("Tarea guardada correctamente");
+      console.log("Tarea guardada correctamente");
+      if(withAlert){
+        await scheduleTaskNotification(newTask);
+      }
+      
       navigation.goBack();
     } catch (e) {
       console.log(e);
     }
   };
+
+  const scheduleTaskNotification = async (task) => {
+    const trigger = new Date(task.hour);
+    try {
+      await Notifications.scheduleNotificationAsync({
+        content:{
+          title:"It's time",
+          body: task.text,
+        },
+        trigger,
+      });
+      console.log("Notificacion con alerta");
+    } catch (e){
+      alert("ALERT")
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -100,6 +124,20 @@ export default function AddTask() {
         }}
       >
         Si la tarea NO es para hoy, se programará para mañana.
+      </Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputTitle}>Alert</Text>
+        <Switch value={withAlert} onValueChange={(value) => setWithAlert(value)} />
+      </View>
+      <Text
+        style={{
+          color: "#00000040",
+          fontSize: 12,
+          maxWidth: "90%",
+          paddingBottom: 10,
+        }}
+      >
+        La aplicación notificará la tarea a realizar en el horario asignado.
       </Text>
 
       <View>

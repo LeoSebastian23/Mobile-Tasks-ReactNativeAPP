@@ -1,29 +1,38 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ViewComponent,
-} from "react-native";
+import {StyleSheet,View,Text,TouchableOpacity,ViewComponent,Platform} from "react-native";
 import List from "../components/List";
 import CustomSafeAreaView from "../CustomSafeAreaView";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { hideComplitedReducer, setTasksReducer } from "../reduxs/taskSlice";
+import * as Notifications from "expo-notifications";
+import * as Device from 'expo-device';
+import moment from "moment";
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async ()=>({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+})
 
 export default function Home() {
-  const tasks = useSelector((state) => state.tasks.tasks);
 
+  const tasks = useSelector((state) => state.tasks.tasks);
   const [isHidden, setIsHidden] = React.useState(false);
+  const dispatch = useDispatch();
+  const [expoPushToken, setExpoPushToken] = React.useState('');
+  const navigation = useNavigation(); 
 
   const handleHideCompleted = async () => {
     if (isHidden) {
       setIsHidden(false);
       const tasks = await AsyncStorage.getItem("@Tasks");
       if (tasks !== null) {
-        dispatch(setTasksReducer(JSON.parse(tasks)));
+        dispatch(setTasksReducer(JSON.parse(tasks))); 
       }
       return;
     }
@@ -31,10 +40,37 @@ export default function Home() {
     dispatch(hideComplitedReducer());
   };
 
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
+  const registerForPushNotificationsAsync = async () => {
+    let token;
+    if (Device.isDevice) {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+        return;
+    }
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+    return token;
+}
 
   React.useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     const getTasks = async () => {
       try {
         const tasks = await AsyncStorage.getItem("@Tasks");
@@ -48,14 +84,10 @@ export default function Home() {
     getTasks();
   }, []);
 
+
   return (
     <CustomSafeAreaView>
       <View style={styles.container}>
-        {/* <View>
-                    <Text>
-                        Block de tareas
-                    </Text>
-                </View> */}
         <View style={styles.containerToday}>
           <Text style={styles.tittle}>Hoy</Text>
           <TouchableOpacity onPress={handleHideCompleted}>
@@ -78,7 +110,7 @@ export default function Home() {
       </View>
     </CustomSafeAreaView>
   );
-}
+              }
 
 const styles = StyleSheet.create({
   container: {
