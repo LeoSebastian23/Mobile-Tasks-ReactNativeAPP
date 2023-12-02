@@ -25,7 +25,7 @@ export default function Home() {
   const [isHidden, setIsHidden] = React.useState(false);
   const dispatch = useDispatch();
   const [expoPushToken, setExpoPushToken] = React.useState('');
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();  
 
   const handleHideCompleted = async () => {
     if (isHidden) {
@@ -42,32 +42,47 @@ export default function Home() {
 
   const registerForPushNotificationsAsync = async () => {
     let token;
+  
+    // Verifica si el dispositivo es un dispositivo real
     if (Device.isDevice) {
+      // Obtiene el estado actual de los permisos de notificaciones
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
+  
+      // Si los permisos no están otorgados, solicita permisos al usuario
       if (existingStatus !== 'granted') {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
+  
+      // Si no se otorgan los permisos, muestra una alerta indicando que no se pudo obtener el token de notificación push
       if (finalStatus !== 'granted') {
         alert('Failed to get push token for push notification!');
-        return;
+        return null; // Cambiado para devolver un valor nulo en caso de fallo
       }
+  
+      // Obtiene el token de notificación push mediante Notifications.getExpoPushTokenAsync
       token = (await Notifications.getExpoPushTokenAsync({})).data;
       console.log(token);
     } else {
-        return;
+      // Si no es un dispositivo real, simplemente regresa
+      return null; // Cambiado para devolver un valor nulo si no es un dispositivo real
     }
+  
+    // Si la plataforma es Android, configura un canal de notificación con ciertos parámetros
     if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
+      await Notifications.setNotificationChannelAsync('default', {
         name: 'default',
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: '#FF231F7C',
       });
     }
+  
+    // Devuelve el token obtenido
     return token;
-}
+  }
+  
 
   React.useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
@@ -93,8 +108,6 @@ export default function Home() {
     getTasks();
   }, []);
 
-  const todayTodos = todos.filter(todo => moment(todo.hour).isSame(moment(), 'day'));
-  const tomorrowTodos = todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day')); 
 
   return (
     <CustomSafeAreaView>

@@ -34,7 +34,7 @@ export default function AddTask() {
     }
   };
 
-  const addTask = async () => {
+  const addTask = async () => { 
     const newTask = {
       id: Math.floor(Math.random() * 1000000),
       text: name,
@@ -54,7 +54,6 @@ export default function AddTask() {
       if(withAlert){
         await scheduleTaskNotification(newTask);
       }
-      
       navigation.goBack();
     } catch (e) {
       console.log(e);
@@ -117,10 +116,10 @@ export default function AddTask() {
       </View>
       <Text
         style={{
-          color: "#00000040",
-          fontSize: 12,
+          color: "#00000080",
+          fontSize: 13,
           maxWidth: "90%",
-          paddingBottom: 10,
+          margin:5,
         }}
       >
         Si la tarea NO es para hoy, se programará para mañana.
@@ -131,10 +130,10 @@ export default function AddTask() {
       </View>
       <Text
         style={{
-          color: "#00000040",
-          fontSize: 12,
+          color: "#00000080",
+          fontSize: 13,
           maxWidth: "90%",
-          paddingBottom: 10,
+          margin:5,
         }}
       >
         La aplicación notificará la tarea a realizar en el horario asignado.
@@ -175,10 +174,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     lineHeight: 30,
     paddingRight: 10,
+    marginTop: 10,
+    marginBottom: 10,
   },
   inputContainer: {
-    marginTop: 16,
-    marginBottom: 16,
+    marginTop: 30,
     padding: 10,
     justifyContent: "space-between",
     flexDirection: "row",
