@@ -53,7 +53,7 @@ export default function Home() {
         alert('Failed to get push token for push notification!');
         return;
       }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
+      token = (await Notifications.getExpoPushTokenAsync({})).data;
       console.log(token);
     } else {
         return;
@@ -76,6 +76,15 @@ export default function Home() {
         const tasks = await AsyncStorage.getItem("@Tasks");
         if (tasks !== null) {
           dispatch(setTasksReducer(JSON.parse(tasks))); // Pasamos de JSON a JS
+          const taskData = JSON.parse(tasks);
+          const taskDataFiltered = taskData.filter(task => {
+            return moment(new Date(task.hour)).isSameOrAfter(moment(),'day')
+          })
+          if(taskDataFiltered !== null){
+              await AsyncStorage.setItem("@Task",JSON.stringify(taskDataFiltered));
+              console.log('we deleted some passed task');
+              dispatch(setTasksReducer(taskDataFiltered));
+          }
         }
       } catch (e) {
         console.log(e);
@@ -84,12 +93,14 @@ export default function Home() {
     getTasks();
   }, []);
 
+  const todayTodos = todos.filter(todo => moment(todo.hour).isSame(moment(), 'day'));
+  const tomorrowTodos = todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day')); 
 
   return (
     <CustomSafeAreaView>
       <View style={styles.container}>
         <View style={styles.containerToday}>
-          <Text style={styles.tittle}>Hoy</Text>
+          <Text style={styles.tittle}>HOY</Text>
           <TouchableOpacity onPress={handleHideCompleted}>
             <Text style={styles.textState}>
               {isHidden ? "MOSTRAR COMPLETOS" : "OCULTAR COMPLETOS"}
