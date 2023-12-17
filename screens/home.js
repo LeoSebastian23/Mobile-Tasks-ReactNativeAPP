@@ -63,7 +63,7 @@ export default function Home() {
   
       // Obtiene el token de notificación push mediante Notifications.getExpoPushTokenAsync
       token = (await Notifications.getExpoPushTokenAsync({})).data;
-      console.log(token);
+      //console.log(token);
     } else {
       // Si no es un dispositivo real, simplemente regresa
       return null; // Cambiado para devolver un valor nulo si no es un dispositivo real
@@ -81,7 +81,7 @@ export default function Home() {
   
     // Devuelve el token obtenido
     return token;
-  }
+  } 
   
 
   React.useEffect(() => {
@@ -90,14 +90,13 @@ export default function Home() {
       try {
         const tasks = await AsyncStorage.getItem("@Tasks");
         if (tasks !== null) {
-          dispatch(setTasksReducer(JSON.parse(tasks))); // Pasamos de JSON a JS
           const taskData = JSON.parse(tasks);
           const taskDataFiltered = taskData.filter(task => {
             return moment(new Date(task.hour)).isSameOrAfter(moment(),'day')
           })
           if(taskDataFiltered !== null){
               await AsyncStorage.setItem("@Task",JSON.stringify(taskDataFiltered));
-              console.log('we deleted some passed task');
+              //console.log('we deleted some passed task');
               dispatch(setTasksReducer(taskDataFiltered));
           }
         }
@@ -120,12 +119,16 @@ export default function Home() {
             </Text>
           </TouchableOpacity>
         </View>
-        <List info={tasks.filter((tasks) => tasks.isToday === true)} />
+
+        <List info={tasks.filter((tasks) => moment(new Date(tasks.hour)).isSame(moment(),'day'))} />
+
         <View style={styles.containerTomorrow}>
-          <Text style={styles.tittle}>Mañana</Text>
+          <Text style={styles.tittle}>MAÑANA</Text>
         </View>
-        <List info={tasks.filter((tasks) => tasks.isToday === false)} />
-        <TouchableOpacity
+
+        <List info={tasks.filter((tasks) => moment(new Date(tasks.hour)).isAfter(moment(),'day'))} />
+
+        <TouchableOpacity 
           style={styles.buttonAdd}
           onPress={() => navigation.navigate("Add")}
         >

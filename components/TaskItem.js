@@ -10,7 +10,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 export default function TaskItem({ id, text, isCompleted, isToday, hour }) {
   const [localHour, setLocalHour] = React.useState(new Date(hour));
-  const [thisTaskIsToday, setThisTaskIsToday] = hour ? React.useState(moment(hour).isSame(moment(), 'day')) : React.useState(false);
+
+  const [thisTaskIsToday, setThisTaskIsToday] = hour ? React.useState(moment(new Date(hour)).isSame(moment(), 'day')) : React.useState(false);
   const tasks = useSelector((state) => state.tasks.tasks);
   const dispatch = useDispatch();
 
