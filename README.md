@@ -1,8 +1,8 @@
-#Proyecto de Aplicación de Tareas 🌟
+# Proyecto de Aplicación de Tareas 🌟
 
 Demo sobre mi proyecto de App-Mobile desarrollada con React Native Expo. 👨‍💻
 Se trata de una sencilla aplicación de tareas donde se implementan tecnologías como ReactNative - Redux - AsyncStorage
-.En la misma se puede:
+En la misma se puede:
 - Crear tareas para el día de hoy. / Crear tareas para el día siguiente.
 - Tildar las tareas realizadas. / Mostrar u ocultar las tareas realizadas.
 - Almacenar las tareas en el dispositivo local gracias al AsyncStorage.
