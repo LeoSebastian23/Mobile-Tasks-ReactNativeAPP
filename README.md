@@ -1,7 +1,5 @@
 # Mi Proyecto de Aplicación de Tareas 🌟
 
-¡Bienvenido a la última actualización de mi aplicación personal de gestión de tareas! Estoy emocionado de compartir contigo las nuevas características que harán que tu experiencia sea aún mejor.
-
 ## Novedades Destacadas
 
 ### Recordatorios en Tiempo Real
